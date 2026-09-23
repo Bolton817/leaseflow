@@ -1,27 +1,38 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     setMounted(true);
+    setIsDark(document.documentElement.classList.contains('dark'));
   }, []);
+
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setIsDark(false);
+    } else {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setIsDark(true);
+    }
+  };
 
   if (!mounted) {
     return <div className="w-14 h-8 rounded-full bg-slate-200 dark:bg-slate-800 animate-pulse"></div>;
   }
 
-  const isDark = theme === 'dark';
-
   return (
     <button
       type="button"
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      onClick={toggleTheme}
       className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-[#0B101A] ${
         isDark ? 'bg-amber-500' : 'bg-slate-300'
       }`}
