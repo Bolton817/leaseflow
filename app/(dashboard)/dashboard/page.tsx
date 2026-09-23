@@ -16,44 +16,44 @@ export default async function DashboardPage() {
       </header>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-[#131A26] rounded-xl p-6 border border-slate-800 shadow-lg">
-          <h3 className="text-sm font-medium text-slate-400 mb-1">Total Properties / Units</h3>
-          <p className="text-3xl font-bold text-white">
-            {metrics.propertiesCount} <span className="text-xl text-slate-500 font-medium">/ {metrics.unitsCount}</span>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8">
+        <div className="bg-[#131A26] rounded-xl p-4 sm:p-6 border border-slate-800 shadow-lg">
+          <h3 className="text-xs sm:text-sm font-medium text-slate-400 mb-1 line-clamp-1">Properties / Units</h3>
+          <p className="text-xl sm:text-3xl font-bold text-white">
+            {metrics.propertiesCount} <span className="text-sm sm:text-xl text-slate-500 font-medium">/ {metrics.unitsCount}</span>
           </p>
         </div>
 
-        <div className="bg-[#131A26] rounded-xl p-6 border border-slate-800 shadow-lg">
-          <h3 className="text-sm font-medium text-slate-400 mb-1">Occupancy Rate</h3>
-          <p className="text-3xl font-bold text-white">
+        <div className="bg-[#131A26] rounded-xl p-4 sm:p-6 border border-slate-800 shadow-lg">
+          <h3 className="text-xs sm:text-sm font-medium text-slate-400 mb-1 line-clamp-1">Occupancy Rate</h3>
+          <p className="text-xl sm:text-3xl font-bold text-white">
             {metrics.occupancyRate.toFixed(1)}%
           </p>
-          <div className="w-full bg-slate-800 rounded-full h-1.5 mt-4 overflow-hidden">
-            <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: `${metrics.occupancyRate}%` }}></div>
+          <div className="w-full bg-slate-800 rounded-full h-1 sm:h-1.5 mt-2 sm:mt-4 overflow-hidden">
+            <div className="bg-amber-500 h-1 sm:h-1.5 rounded-full" style={{ width: `${metrics.occupancyRate}%` }}></div>
           </div>
         </div>
 
-        <div className="bg-[#131A26] rounded-xl p-6 border border-slate-800 shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <svg className="w-12 h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div className="bg-[#131A26] rounded-xl p-4 sm:p-6 border border-slate-800 shadow-lg relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-2 sm:p-4 opacity-10">
+            <svg className="w-8 h-8 sm:w-12 sm:h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
-          <h3 className="text-sm font-medium text-slate-400 mb-1">Monthly Revenue</h3>
-          <p className="text-3xl font-bold text-emerald-500">
+          <h3 className="text-xs sm:text-sm font-medium text-slate-400 mb-1 line-clamp-1">Monthly Revenue</h3>
+          <p className="text-xl sm:text-3xl font-bold text-emerald-500">
             ${metrics.monthlyRevenue.toFixed(2)}
           </p>
-          <p className="text-xs text-slate-500 mt-2">Collected this month</p>
+          <p className="text-[10px] sm:text-xs text-slate-500 mt-1 sm:mt-2 line-clamp-1">Collected this month</p>
         </div>
 
-        <div className="bg-[#131A26] rounded-xl p-6 border border-slate-800 shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <svg className="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <div className="bg-[#131A26] rounded-xl p-4 sm:p-6 border border-slate-800 shadow-lg relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-2 sm:p-4 opacity-10">
+            <svg className="w-8 h-8 sm:w-12 sm:h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
           </div>
-          <h3 className="text-sm font-medium text-slate-400 mb-1">Outstanding Balance</h3>
-          <p className="text-3xl font-bold text-red-400">
+          <h3 className="text-xs sm:text-sm font-medium text-slate-400 mb-1 line-clamp-1">Outstanding</h3>
+          <p className="text-xl sm:text-3xl font-bold text-red-400">
             ${metrics.outstandingBalance.toFixed(2)}
           </p>
-          <p className="text-xs text-slate-500 mt-2">Across all unpaid invoices</p>
+          <p className="text-[10px] sm:text-xs text-slate-500 mt-1 sm:mt-2 line-clamp-1">Across all unpaid invoices</p>
         </div>
       </div>
 
