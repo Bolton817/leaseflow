@@ -13,11 +13,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-[#0B101A] text-slate-200 flex flex-col md:flex-row pb-16 md:pb-0">
-      {/* Mobile Top Header (Logo only) */}
-      <header className="md:hidden flex items-center justify-between p-4 bg-[#131A26] border-b border-slate-800 sticky top-0 z-40">
-        <Image src="/logos/leaseflow-logo.png" alt="LeaseFlow" width={120} height={32} unoptimized={true} className="h-8 w-auto object-contain" />
-      </header>
-
+      
       {/* Navigation (Bottom Bar on Mobile, Sidebar on Desktop) */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:static md:w-64 md:sticky md:top-0 md:h-screen md:overflow-y-auto bg-[#131A26] border-t md:border-t-0 md:border-r border-slate-800 p-2 md:p-6 flex flex-row md:flex-col gap-1 md:gap-6">
         <div className="hidden md:block">
