@@ -25,6 +25,7 @@ export async function getUser() {
         email: true,
         firstName: true,
         lastName: true,
+        avatarUrl: true,
         role: true,
         isActive: true,
       },

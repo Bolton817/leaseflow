@@ -1,5 +1,7 @@
 import { requireSession } from '@/lib/auth/user';
 import { getAuditLogs } from '@/lib/domain/audit';
+import { EditProfileModal } from './EditProfileModal';
+import Image from 'next/image';
 
 export default async function SettingsPage() {
   const user = await requireSession();
@@ -21,15 +23,19 @@ export default async function SettingsPage() {
         </h2>
         <div className="bg-[#131A26] rounded-3xl border border-slate-800 p-8 w-full flex flex-col md:flex-row items-center md:items-start gap-8 shadow-lg">
           {/* Circular Avatar */}
-          <div className="w-24 h-24 shrink-0 rounded-full bg-amber-500/10 border-2 border-amber-500/20 flex items-center justify-center">
-            <span className="text-3xl font-bold text-amber-500 tracking-wider">
-              {user.firstName[0]}{user.lastName[0]}
-            </span>
+          <div className="w-24 h-24 shrink-0 rounded-full bg-amber-500/10 border-2 border-amber-500/20 flex items-center justify-center overflow-hidden">
+            {user.avatarUrl ? (
+              <Image src={user.avatarUrl} alt="Avatar" width={96} height={96} className="w-full h-full object-cover" unoptimized={true} />
+            ) : (
+              <span className="text-3xl font-bold text-amber-500 tracking-wider">
+                {user.firstName[0]}{user.lastName[0]}
+              </span>
+            )}
           </div>
 
           {/* Details Section */}
           <div className="flex-1 w-full space-y-6 text-center md:text-left">
-            {/* Header row: Name, Email, Badges */}
+            {/* Header row: Name, Email, Badges & Edit Button */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-bold text-white tracking-tight">
@@ -38,14 +44,18 @@ export default async function SettingsPage() {
                 <p className="text-slate-400 mt-1">{user.email}</p>
               </div>
               
-              <div className="flex flex-wrap justify-center md:justify-end gap-2">
-                <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                  {user.role}
-                </span>
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                  {user.isActive ? 'Active' : 'Inactive'}
-                </span>
+              <div className="flex flex-col sm:flex-row items-center gap-3">
+                <div className="flex flex-wrap justify-center md:justify-end gap-2">
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                    {user.role}
+                  </span>
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    {user.isActive ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
+                
+                <EditProfileModal user={user} />
               </div>
             </div>
 
