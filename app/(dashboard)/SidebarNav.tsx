@@ -29,15 +29,15 @@ export function SidebarNav() {
         const Icon = item.icon;
         
         return (
-          <Link 
-            key={item.href}
-            href={item.href} 
-            className={`flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 p-2 md:px-4 md:py-3 rounded-lg md:rounded-xl transition-all duration-300 relative group overflow-hidden flex-1 md:flex-none ${
-              isActive 
-                ? 'text-amber-500 font-medium md:bg-amber-500/10 md:shadow-[inset_0_1px_0_0_rgba(245,158,11,0.1)]' 
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-            }`}
-          >
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex flex-col md:flex-row items-center gap-1 md:gap-3 px-2 md:px-4 py-2 md:py-3 rounded-xl transition-all duration-200 group relative ${
+                isActive 
+                  ? 'text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-500/10' 
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50'
+              }`}
+            >
             {/* Active Indicator Bar (Desktop) */}
             {isActive && (
               <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 h-2/3 w-1 bg-amber-500 rounded-r-full shadow-[0_0_8px_0_rgba(245,158,11,0.6)]" />

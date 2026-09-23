@@ -10,19 +10,19 @@ export default async function SettingsPage() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-12">
-      <header className="flex justify-between items-start pb-4 border-b border-slate-800">
+      <header className="flex justify-between items-start pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-1">Settings</h1>
-          <p className="text-slate-400">Manage your profile and review system activity</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Settings</h1>
+          <p className="text-slate-600 dark:text-slate-400">Manage your profile and review system activity</p>
         </div>
       </header>
 
       <section>
-        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
           <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
           Profile Details
         </h2>
-        <div className="bg-[#131A26] rounded-3xl border border-slate-800 p-8 w-full flex flex-col md:flex-row items-center md:items-start gap-8 shadow-lg relative">
+        <div className="bg-slate-50 dark:bg-[#131A26] rounded-3xl border border-slate-200 dark:border-slate-800 p-8 w-full flex flex-col md:flex-row items-center md:items-start gap-8 shadow-lg relative">
           
           <AvatarPreview user={user} />
 
@@ -31,18 +31,18 @@ export default async function SettingsPage() {
             {/* Header row: Name, Email, Badges */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h3 className="text-2xl font-bold text-white tracking-tight">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                   {user.firstName} {user.lastName}
                 </h3>
-                <p className="text-slate-400 mt-1">{user.email}</p>
+                <p className="text-slate-600 dark:text-slate-400 mt-1">{user.email}</p>
               </div>
               
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <div className="flex flex-wrap justify-center md:justify-end gap-2">
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-amber-500/10 text-amber-600 dark:text-amber-500 border border-amber-500/20">
                     {user.role}
                   </span>
-                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-500/20">
                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                     {user.isActive ? 'Active' : 'Inactive'}
                   </span>
@@ -51,14 +51,30 @@ export default async function SettingsPage() {
             </div>
 
             {/* Footer row: Account ID and Edit Button */}
-            <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-sm text-slate-500">
-                Account ID: <span className="font-mono text-slate-400 ml-1">{user.id}</span>
+            <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm text-slate-600 dark:text-slate-500">
+                Account ID: <span className="font-mono text-slate-500 dark:text-slate-400 ml-1">{user.id}</span>
               </p>
               <div className="flex-shrink-0">
                 <EditProfileModal user={user} />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+          <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          Preferences
+        </h2>
+        <div className="bg-slate-50 dark:bg-[#131A26] rounded-3xl border border-slate-200 dark:border-slate-800 p-8 w-full shadow-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Appearance</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Switch between bright and dark themes.</p>
+            </div>
+            <ThemeToggle />
           </div>
         </div>
       </section>

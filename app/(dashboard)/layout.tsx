@@ -12,12 +12,12 @@ export default async function DashboardLayout({
   const user = await requireSession();
 
   return (
-    <div className="min-h-screen bg-[#0B101A] text-slate-200 flex flex-col md:flex-row pb-16 md:pb-0">
+    <div className="min-h-screen bg-white dark:bg-[#0B101A] text-black dark:text-slate-200 flex flex-col md:flex-row pb-16 md:pb-0">
       
       {/* Navigation (Bottom Bar on Mobile, Sidebar on Desktop) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:static md:w-64 md:sticky md:top-0 md:h-screen md:overflow-y-auto bg-[#131A26] border-t md:border-t-0 md:border-r border-slate-800 p-2 md:p-6 flex flex-row md:flex-col gap-1 md:gap-6">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:static md:w-64 md:sticky md:top-0 md:h-screen md:overflow-y-auto bg-slate-50 dark:bg-[#131A26] border-t md:border-t-0 md:border-r border-slate-200 dark:border-slate-800 p-2 md:p-6 flex flex-row md:flex-col gap-1 md:gap-6">
         <div className="hidden md:block">
-          <Image src="/logos/leaseflow-logo.png" alt="LeaseFlow" width={150} height={40} unoptimized={true} className="h-10 w-auto object-contain" />
+          <Image src="/logos/leaseflow-logo.png" alt="LeaseFlow" width={150} height={40} unoptimized={true} className="h-10 w-auto object-contain dark:invert-0 invert" />
         </div>
         
         <SidebarNav />
