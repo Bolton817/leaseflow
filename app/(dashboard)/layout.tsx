@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-[#0B101A] text-slate-200 flex flex-col md:flex-row">
       {/* Sidebar Navigation */}
-      <nav className="w-full md:w-64 bg-[#131A26] border-b md:border-r border-slate-800 p-6 flex flex-col gap-6">
+      <nav className="w-full md:w-64 md:sticky md:top-0 md:h-screen overflow-y-auto bg-[#131A26] border-b md:border-r border-slate-800 p-6 flex flex-col gap-6">
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight">LeaseFlow</h1>
         </div>
