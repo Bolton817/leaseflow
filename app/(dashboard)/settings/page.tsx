@@ -2,6 +2,7 @@ import { requireSession } from '@/lib/auth/user';
 import { getAuditLogs } from '@/lib/domain/audit';
 import { EditProfileModal } from './EditProfileModal';
 import { AvatarPreview } from './AvatarPreview';
+import { ThemeToggle } from './ThemeToggle';
 import Image from 'next/image';
 
 export default async function SettingsPage() {
