@@ -7,7 +7,6 @@ import {
   Building2, 
   Users, 
   Wallet,
-  MessageSquare, 
   ShieldCheck 
 } from 'lucide-react';
 
@@ -16,7 +15,6 @@ const navItems = [
   { name: 'Properties', href: '/properties', icon: Building2 },
   { name: 'Tenants', href: '/tenants', icon: Users },
   { name: 'Financials', href: '/financials', icon: Wallet },
-  { name: 'Communications', href: '/communications', icon: MessageSquare },
   { name: 'Audit Logs', href: '/audit', icon: ShieldCheck },
 ];
 
