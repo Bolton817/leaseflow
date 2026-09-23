@@ -1,6 +1,7 @@
 import { requireSession } from '@/lib/auth/user';
 import { getAuditLogs } from '@/lib/domain/audit';
 import { EditProfileModal } from './EditProfileModal';
+import { AvatarPreview } from './AvatarPreview';
 import Image from 'next/image';
 
 export default async function SettingsPage() {
@@ -21,21 +22,13 @@ export default async function SettingsPage() {
           <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
           Profile Details
         </h2>
-        <div className="bg-[#131A26] rounded-3xl border border-slate-800 p-8 w-full flex flex-col md:flex-row items-center md:items-start gap-8 shadow-lg">
-          {/* Circular Avatar */}
-          <div className="w-24 h-24 shrink-0 rounded-full bg-amber-500/10 border-2 border-amber-500/20 flex items-center justify-center overflow-hidden">
-            {user.avatarUrl ? (
-              <Image src={user.avatarUrl} alt="Avatar" width={96} height={96} className="w-full h-full object-cover" unoptimized={true} />
-            ) : (
-              <span className="text-3xl font-bold text-amber-500 tracking-wider">
-                {user.firstName[0]}{user.lastName[0]}
-              </span>
-            )}
-          </div>
+        <div className="bg-[#131A26] rounded-3xl border border-slate-800 p-8 w-full flex flex-col md:flex-row items-center md:items-start gap-8 shadow-lg relative">
+          
+          <AvatarPreview user={user} />
 
           {/* Details Section */}
           <div className="flex-1 w-full space-y-6 text-center md:text-left">
-            {/* Header row: Name, Email, Badges & Edit Button */}
+            {/* Header row: Name, Email, Badges */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-bold text-white tracking-tight">
@@ -54,16 +47,17 @@ export default async function SettingsPage() {
                     {user.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </div>
-                
-                <EditProfileModal user={user} />
               </div>
             </div>
 
-            {/* Footer row: Account ID */}
-            <div className="pt-6 border-t border-slate-800/80">
+            {/* Footer row: Account ID and Edit Button */}
+            <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-sm text-slate-500">
                 Account ID: <span className="font-mono text-slate-400 ml-1">{user.id}</span>
               </p>
+              <div className="flex-shrink-0">
+                <EditProfileModal user={user} />
+              </div>
             </div>
           </div>
         </div>
