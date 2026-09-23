@@ -101,13 +101,18 @@ export function EditProfileModal({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1">Avatar Image URL (Optional)</label>
-                <input 
-                  name="avatarUrl" 
-                  defaultValue={user.avatarUrl || ''}
-                  placeholder="https://example.com/avatar.jpg"
-                  className="w-full bg-[#0B101A] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500 transition-colors"
-                />
+                <label className="block text-sm font-medium text-slate-400 mb-1">Profile Image</label>
+                <div className="flex items-center gap-4">
+                  {user.avatarUrl && (
+                    <img src={user.avatarUrl} alt="Current avatar" className="w-10 h-10 rounded-full object-cover border border-slate-700" />
+                  )}
+                  <input 
+                    type="file"
+                    name="avatarImage" 
+                    accept="image/*"
+                    className="w-full bg-[#0B101A] border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-amber-500 transition-colors file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-500/10 file:text-amber-500 hover:file:bg-amber-500/20"
+                  />
+                </div>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
