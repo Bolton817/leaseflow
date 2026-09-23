@@ -41,8 +41,9 @@ export async function loginAction(prevState: any, formData: FormData) {
     }
 
     await createSession(user.id);
-  } catch (error) {
-    return { error: 'An unexpected error occurred. Please try again.' };
+  } catch (error: any) {
+    console.error('Auth Error:', error);
+    return { error: 'An unexpected error occurred: ' + (error?.message || String(error)) };
   }
 
   redirect('/dashboard');
@@ -92,8 +93,9 @@ export async function registerAction(prevState: any, formData: FormData) {
     });
 
     await createSession(user.id);
-  } catch (error) {
-    return { error: 'An unexpected error occurred. Please try again.' };
+  } catch (error: any) {
+    console.error('Auth Error:', error);
+    return { error: 'An unexpected error occurred: ' + (error?.message || String(error)) };
   }
 
   redirect('/dashboard');
