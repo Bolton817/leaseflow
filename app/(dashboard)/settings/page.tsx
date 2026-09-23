@@ -19,35 +19,47 @@ export default async function SettingsPage() {
           <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
           Profile Details
         </h2>
-        <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-hidden max-w-2xl">
-          <div className="p-6 space-y-4">
-            <div className="grid grid-cols-3 border-b border-slate-800/50 pb-4">
-              <span className="text-slate-500 font-medium">First Name</span>
-              <span className="col-span-2 text-white">{user.firstName}</span>
+        <div className="bg-[#131A26] rounded-2xl border border-slate-800 overflow-hidden w-full relative shadow-lg">
+          {/* Cover background */}
+          <div className="h-32 bg-gradient-to-r from-amber-500/20 via-slate-800/50 to-[#131A26] border-b border-slate-800"></div>
+          
+          <div className="px-8 pb-8 relative">
+            {/* Avatar - pulled up over the cover */}
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end -mt-12 mb-8">
+              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 p-1 shadow-xl">
+                <div className="w-full h-full bg-[#131A26] rounded-xl flex items-center justify-center">
+                  <span className="text-3xl font-bold text-amber-500 tracking-wider">
+                    {user.firstName[0]}{user.lastName[0]}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="pb-2">
+                <h3 className="text-3xl font-bold text-white tracking-tight">
+                  {user.firstName} {user.lastName}
+                </h3>
+                <div className="flex items-center gap-3 mt-3">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                    {user.role}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    {user.isActive ? 'Active Account' : 'Inactive Account'}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-3 border-b border-slate-800/50 pb-4">
-              <span className="text-slate-500 font-medium">Last Name</span>
-              <span className="col-span-2 text-white">{user.lastName}</span>
-            </div>
-            <div className="grid grid-cols-3 border-b border-slate-800/50 pb-4">
-              <span className="text-slate-500 font-medium">Email</span>
-              <span className="col-span-2 text-white">{user.email}</span>
-            </div>
-            <div className="grid grid-cols-3 border-b border-slate-800/50 pb-4">
-              <span className="text-slate-500 font-medium">Role</span>
-              <span className="col-span-2">
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                  {user.role}
-                </span>
-              </span>
-            </div>
-            <div className="grid grid-cols-3">
-              <span className="text-slate-500 font-medium">Status</span>
-              <span className="col-span-2">
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                  {user.isActive ? 'Active' : 'Inactive'}
-                </span>
-              </span>
+
+            {/* Additional details grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#0B101A] rounded-xl p-6 border border-slate-800/80 shadow-inner">
+              <div>
+                <span className="block text-sm font-medium text-slate-500 mb-1">Email Address</span>
+                <span className="text-slate-200">{user.email}</span>
+              </div>
+              <div>
+                <span className="block text-sm font-medium text-slate-500 mb-1">Account ID</span>
+                <span className="text-slate-400 font-mono text-sm">{user.id}</span>
+              </div>
             </div>
           </div>
         </div>
