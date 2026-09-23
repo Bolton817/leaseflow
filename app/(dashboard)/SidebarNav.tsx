@@ -6,8 +6,7 @@ import {
   LayoutDashboard, 
   Building2, 
   Users, 
-  FileText, 
-  CreditCard, 
+  Wallet,
   MessageSquare, 
   ShieldCheck 
 } from 'lucide-react';
@@ -16,8 +15,7 @@ const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Properties', href: '/properties', icon: Building2 },
   { name: 'Tenants', href: '/tenants', icon: Users },
-  { name: 'Invoices', href: '/invoices', icon: FileText },
-  { name: 'Payments', href: '/payments', icon: CreditCard },
+  { name: 'Financials', href: '/financials', icon: Wallet },
   { name: 'Communications', href: '/communications', icon: MessageSquare },
   { name: 'Audit Logs', href: '/audit', icon: ShieldCheck },
 ];

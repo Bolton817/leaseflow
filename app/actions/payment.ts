@@ -44,7 +44,7 @@ export async function recordPaymentAction(prevState: any, formData: FormData) {
     
     // Refresh the invoice details page and the global payments ledger
     revalidatePath(`/invoices/${invoiceId}`);
-    revalidatePath('/payments');
+    revalidatePath('/financials');
     
     return { success: true };
   } catch (error: any) {

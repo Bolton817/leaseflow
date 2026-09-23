@@ -70,7 +70,7 @@ export default async function DashboardPage() {
               <span>Register Tenant</span>
               <span className="text-slate-500 group-hover:text-amber-500 transition-colors">&rarr;</span>
             </Link>
-            <Link href="/invoices" className="px-4 py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/20 rounded-lg transition-colors flex items-center justify-between group">
+            <Link href="/financials" className="px-4 py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/20 rounded-lg transition-colors flex items-center justify-between group">
               <span className="font-medium">Run Billing Cycle</span>
               <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
             </Link>

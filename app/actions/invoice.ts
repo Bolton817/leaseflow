@@ -9,7 +9,7 @@ export async function generateInvoicesAction() {
 
   try {
     const result = await generateMonthlyInvoices(user.id);
-    revalidatePath('/invoices');
+    revalidatePath('/financials');
     revalidatePath('/dashboard');
     return { success: true, count: result.generatedCount, period: result.billingPeriod };
   } catch (error: any) {
