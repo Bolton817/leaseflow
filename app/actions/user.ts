@@ -26,7 +26,7 @@ export async function updateProfileAction(formData: FormData) {
   
   const parsed = updateProfileSchema.safeParse(rawData);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.errors[0].message };
+    return { success: false, error: parsed.error.issues[0].message };
   }
 
   let finalAvatarUrl = user.avatarUrl; // keep existing by default

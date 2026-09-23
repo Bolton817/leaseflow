@@ -23,7 +23,7 @@ export async function createUnitAction(prevState: any, formData: FormData) {
   });
 
   if (!validatedFields.success) {
-    return { error: validatedFields.error.errors[0].message };
+    return { error: validatedFields.error.issues[0].message };
   }
 
   const { propertyId, unitNumber, monthlyRent, bedrooms } = validatedFields.data;

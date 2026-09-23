@@ -31,7 +31,7 @@ export async function createTenantAction(prevState: any, formData: FormData) {
   });
 
   if (!validatedFields.success) {
-    return { error: 'Please check your inputs: ' + validatedFields.error.errors[0].message };
+    return { error: 'Please check your inputs: ' + validatedFields.error.issues[0].message };
   }
 
   const { firstName, lastName, email, phone, unitId, leaseStart, leaseEnd } = validatedFields.data;

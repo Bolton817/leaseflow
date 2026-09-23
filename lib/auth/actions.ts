@@ -65,7 +65,7 @@ export async function registerAction(prevState: any, formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-      error: validatedFields.error.errors[0].message,
+      error: validatedFields.error.issues[0].message,
     };
   }
 

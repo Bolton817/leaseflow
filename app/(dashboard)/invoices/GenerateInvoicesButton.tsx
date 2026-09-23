@@ -17,7 +17,7 @@ export default function GenerateInvoicesButton() {
         setMessage({ text: res.error, type: 'error' });
       } else {
         setMessage({ 
-          text: res.count > 0 
+          text: (res.count ?? 0) > 0 
             ? `Generated ${res.count} new invoices for ${res.period}!` 
             : `All active tenants are already billed for ${res.period}.`, 
           type: 'success' 
