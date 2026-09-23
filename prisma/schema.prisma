@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Reference Prisma Schema - Part 1: User, Property, Unit
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  role         UserRole   @default(PROPERTY_MANAGER)
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  properties   Property[]
+  auditLogs    AuditLog[]
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  name        String
+  address     String
+  city        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  units       Unit[]
+
+  @@index([ownerId])
+}
+
+model Unit {
+  id           String     @id @default(cuid())
+  propertyId   String
+  property     Property   @relation(fields: [propertyId], references: [id])
+  unitNumber   String
+  monthlyRent  Decimal    @db.Decimal(12, 2)
+  bedrooms     Int?
+  status       UnitStatus @default(VACANT)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  tenants      Tenant[]
+  invoices     Invoice[]
+  payments     Payment[]
+
+  @@unique([propertyId, unitNumber])
+  @@index([propertyId, status])
+}
+
+// Reference Prisma Schema - Part 2: Tenant
+
+model Tenant {
+  id            String       @id @default(cuid())
+  unitId        String
+  unit          Unit         @relation(fields: [unitId], references: [id])
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  nationality   String?
+  moveInDate    DateTime
+  moveOutDate   DateTime?
+  status        TenantStatus @default(ACTIVE)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  invoices      Invoice[]
+  payments      Payment[]
+  notifications Notification[]
+
+  @@index([unitId, status])
+}
+
+// Reference Prisma Schema - Part 3: Invoice
+
+model Invoice {
+  id            String        @id @default(cuid())
+  tenantId      String
+  unitId        String
+  invoiceNumber String        @unique
+  billingPeriod String
+  amount        Decimal       @db.Decimal(12, 2)
+  dueDate       DateTime
+  status        InvoiceStatus @default(ISSUED)
+  issuedAt      DateTime?
+  paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  tenant        Tenant        @relation(fields: [tenantId], references: [id])
+  unit          Unit          @relation(fields: [unitId], references: [id])
+  payments      Payment[]
+  notifications Notification[]
+
+  @@index([tenantId, billingPeriod])
+  @@index([dueDate, status])
+}
+
+// Reference Prisma Schema - Part 4: Payment and Enums
+
+model Payment {
+  id              String   @id @default(cuid())
+  tenantId        String
+  unitId          String
+  invoiceId       String?
+  amount          Decimal  @db.Decimal(12, 2)
+  paymentDate     DateTime
+  paymentMethod   String
+  referenceNumber String?
+  notes           String?
+  createdAt       DateTime @default(now())
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  unit            Unit     @relation(fields: [unitId], references: [id])
+  invoice         Invoice? @relation(fields: [invoiceId], references: [id])
+
+  @@index([invoiceId, paymentDate])
+}
+
+// Supplemental Models
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  entityType String
+  entityId  String
+  action    String
+  metadata  String   // JSON payload stored as string for basic implementation
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Notification {
+  id           String   @id @default(cuid())
+  tenantId     String
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  invoiceId    String?
+  invoice      Invoice? @relation(fields: [invoiceId], references: [id])
+  type         String
+  channel      String
+  status       String
+  sentAt       DateTime?
+  errorMessage String?
+
+  @@index([tenantId])
+}
+
+enum UserRole {
+  PROPERTY_MANAGER
+  SYSTEM_ADMIN
+}
+
+enum UnitStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+  INACTIVE
+}
+
+enum TenantStatus {
+  ACTIVE
+  NOTICE
+  MOVED_OUT
+  SUSPENDED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+  CANCELLED
+}
