@@ -7,7 +7,7 @@ import {
   Building2, 
   Users, 
   Wallet,
-  ShieldCheck 
+  Settings 
 } from 'lucide-react';
 
 const navItems = [
@@ -15,7 +15,7 @@ const navItems = [
   { name: 'Properties', href: '/properties', icon: Building2 },
   { name: 'Tenants', href: '/tenants', icon: Users },
   { name: 'Financials', href: '/financials', icon: Wallet },
-  { name: 'Audit Logs', href: '/audit', icon: ShieldCheck },
+  { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
 export function SidebarNav() {
