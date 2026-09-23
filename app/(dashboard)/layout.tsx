@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { logoutAction } from '@/lib/auth/actions';
+import { SidebarNav } from './SidebarNav';
 
 export default function DashboardLayout({
   children,
@@ -13,29 +14,7 @@ export default function DashboardLayout({
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight">LeaseFlow</h1>
         </div>
-        <div className="flex flex-col gap-2">
-          <Link href="/dashboard" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Dashboard
-          </Link>
-          <Link href="/properties" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Properties
-          </Link>
-          <Link href="/tenants" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Tenants
-          </Link>
-          <Link href="/invoices" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Invoices
-          </Link>
-          <Link href="/payments" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Payments
-          </Link>
-          <Link href="/communications" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Communications
-          </Link>
-          <Link href="/audit" className="px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
-            Audit Logs
-          </Link>
-        </div>
+        <SidebarNav />
         
         <div className="mt-auto pt-6 border-t border-slate-800">
           <form action={logoutAction}>
