@@ -91,15 +91,14 @@ export default async function SettingsPage() {
             <p className="text-slate-400">Perform an action like adding a property or tenant to generate logs.</p>
           </div>
         ) : (
-          <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-hidden">
-            <table className="w-full text-left text-sm text-slate-300">
+          <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-x-auto">
+            <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap md:whitespace-normal">
               <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="px-6 py-4 font-medium">Timestamp</th>
                   <th className="px-6 py-4 font-medium">Entity Type</th>
                   <th className="px-6 py-4 font-medium">Action</th>
                   <th className="px-6 py-4 font-medium">Entity ID</th>
-                  <th className="px-6 py-4 font-medium">Metadata Payload</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
@@ -120,11 +119,6 @@ export default async function SettingsPage() {
                     </td>
                     <td className="px-6 py-4 font-mono text-xs text-slate-500">
                       {log.entityId}
-                    </td>
-                    <td className="px-6 py-4">
-                      <pre className="text-[10px] text-slate-400 font-mono bg-[#0B101A] p-2 rounded border border-slate-800 overflow-x-auto max-w-xs">
-                        {log.metadata}
-                      </pre>
                     </td>
                   </tr>
                 ))}

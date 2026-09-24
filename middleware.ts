@@ -1,27 +1,43 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { updateSession } from './lib/auth/session';
+import { updateSession, decrypt } from './lib/auth/session';
 
 export async function middleware(request: NextRequest) {
-  // Update the session expiration on every request
-  const response = await updateSession(request);
+  const sessionCookie = request.cookies.get('session')?.value;
   
   // Public routes that don't require authentication
   const isPublicRoute = 
     request.nextUrl.pathname === '/login' || 
     request.nextUrl.pathname === '/register' ||
-    request.nextUrl.pathname.startsWith('/api/webhooks'); // Allow external webhooks if needed
+    request.nextUrl.pathname.startsWith('/api/webhooks');
 
-  const hasSession = request.cookies.has('session');
+  let hasValidSession = false;
+  
+  // Decrypt and verify the session in the middleware
+  if (sessionCookie) {
+    const payload = await decrypt(sessionCookie);
+    if (payload && payload.userId) {
+      hasValidSession = true;
+    }
+  }
 
   // Redirect to dashboard if logged in and trying to access login/register
-  if (isPublicRoute && hasSession) {
+  if (isPublicRoute && hasValidSession) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   // Redirect to login if not logged in and trying to access protected routes
-  if (!isPublicRoute && !hasSession) {
+  if (!isPublicRoute && !hasValidSession) {
     return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // Update the session expiration if valid
+  let response = NextResponse.next();
+  if (hasValidSession) {
+    const updatedResponse = await updateSession(request);
+    if (updatedResponse) {
+      response = updatedResponse;
+    }
   }
 
   // If updateSession returned a new response with updated cookies, use it

@@ -4,6 +4,7 @@ import { getPayments } from '@/lib/domain/payments';
 import { getNotifications } from '@/lib/domain/notifications';
 import Link from 'next/link';
 import GenerateInvoicesButton from '../invoices/GenerateInvoicesButton';
+import { formatCurrency } from '@/lib/utils/currency';
 
 export default async function FinancialsPage() {
   const user = await requireSession();
@@ -35,8 +36,8 @@ export default async function FinancialsPage() {
               <p className="text-slate-400 mb-6">Run a billing cycle to generate invoices for active tenants.</p>
             </div>
           ) : (
-            <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-hidden">
-              <table className="w-full text-left text-sm text-slate-300">
+            <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-x-auto">
+              <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap lg:whitespace-normal">
                 <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                   <tr>
                     <th className="px-6 py-4 font-medium">Invoice #</th>
@@ -74,7 +75,7 @@ export default async function FinancialsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right font-medium text-white">
-                        ${invoice.amount.toString()}
+                        {formatCurrency(invoice.amount, invoice.currency as 'USD' | 'KES')}
                       </td>
                     </tr>
                   ))}
@@ -95,8 +96,8 @@ export default async function FinancialsPage() {
               <p className="text-slate-400">Record a payment from an invoice details page.</p>
             </div>
           ) : (
-            <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-hidden">
-              <table className="w-full text-left text-sm text-slate-300">
+            <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-x-auto">
+              <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap lg:whitespace-normal">
                 <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                   <tr>
                     <th className="px-6 py-4 font-medium">Date</th>
@@ -134,7 +135,7 @@ export default async function FinancialsPage() {
                         )}
                       </td>
                       <td className="px-6 py-4 text-right font-medium text-emerald-500">
-                        + ${payment.amount.toString()}
+                        + {formatCurrency(payment.amount, payment.currency as 'USD' | 'KES')}
                       </td>
                     </tr>
                   ))}
@@ -155,8 +156,8 @@ export default async function FinancialsPage() {
               <p className="text-slate-400">Generate an invoice or record a payment to trigger automated notifications.</p>
             </div>
           ) : (
-            <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-hidden">
-              <table className="w-full text-left text-sm text-slate-300">
+            <div className="bg-[#131A26] rounded-xl border border-slate-800 overflow-x-auto">
+              <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap lg:whitespace-normal">
                 <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                   <tr>
                     <th className="px-6 py-4 font-medium">Date & Time</th>

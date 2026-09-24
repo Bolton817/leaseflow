@@ -3,6 +3,7 @@
 import bcrypt from 'bcryptjs';
 import prisma from '@/lib/db';
 import { createSession, deleteSession } from '@/lib/auth/session';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
@@ -46,6 +47,7 @@ export async function loginAction(prevState: any, formData: FormData) {
     return { error: 'An unexpected error occurred: ' + (error?.message || String(error)) };
   }
 
+  revalidatePath('/', 'layout');
   redirect('/dashboard');
 }
 
@@ -82,6 +84,9 @@ export async function registerAction(prevState: any, formData: FormData) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
+    
+    // Explicitly delete any old session before creating a new one
+    await deleteSession();
 
     const user = await prisma.user.create({
       data: {
@@ -98,10 +103,12 @@ export async function registerAction(prevState: any, formData: FormData) {
     return { error: 'An unexpected error occurred: ' + (error?.message || String(error)) };
   }
 
+  revalidatePath('/', 'layout');
   redirect('/dashboard');
 }
 
 export async function logoutAction() {
   await deleteSession();
+  revalidatePath('/', 'layout');
   redirect('/login');
 }

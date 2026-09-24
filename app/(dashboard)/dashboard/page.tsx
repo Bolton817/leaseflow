@@ -1,6 +1,7 @@
 import { requireSession } from '@/lib/auth/user';
 import { getDashboardMetrics } from '@/lib/domain/metrics';
 import Link from 'next/link';
+import { formatCurrency } from '@/lib/utils/currency';
 
 export default async function DashboardPage() {
   const user = await requireSession();
@@ -39,9 +40,12 @@ export default async function DashboardPage() {
             <svg className="w-8 h-8 sm:w-12 sm:h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
           <h3 className="text-xs sm:text-sm font-medium text-slate-400 mb-1 line-clamp-1">Monthly Revenue</h3>
-          <p className="text-xl sm:text-3xl font-bold text-emerald-500">
-            ${metrics.monthlyRevenue.toFixed(2)}
-          </p>
+          <div className="flex flex-col">
+            <p className="text-xl sm:text-3xl font-bold text-emerald-500">{formatCurrency(metrics.monthlyRevenue.USD, 'USD')}</p>
+            {metrics.monthlyRevenue.KES > 0 && (
+              <p className="text-md sm:text-xl font-medium text-emerald-500/80">{formatCurrency(metrics.monthlyRevenue.KES, 'KES')}</p>
+            )}
+          </div>
           <p className="text-[10px] sm:text-xs text-slate-500 mt-1 sm:mt-2 line-clamp-1">Collected this month</p>
         </div>
 
@@ -50,9 +54,12 @@ export default async function DashboardPage() {
             <svg className="w-8 h-8 sm:w-12 sm:h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
           </div>
           <h3 className="text-xs sm:text-sm font-medium text-slate-400 mb-1 line-clamp-1">Outstanding</h3>
-          <p className="text-xl sm:text-3xl font-bold text-red-400">
-            ${metrics.outstandingBalance.toFixed(2)}
-          </p>
+          <div className="flex flex-col">
+            <p className="text-xl sm:text-3xl font-bold text-red-400">{formatCurrency(metrics.outstandingBalance.USD, 'USD')}</p>
+            {metrics.outstandingBalance.KES > 0 && (
+              <p className="text-md sm:text-xl font-medium text-red-400/80">{formatCurrency(metrics.outstandingBalance.KES, 'KES')}</p>
+            )}
+          </div>
           <p className="text-[10px] sm:text-xs text-slate-500 mt-1 sm:mt-2 line-clamp-1">Across all unpaid invoices</p>
         </div>
       </div>
@@ -111,7 +118,7 @@ export default async function DashboardPage() {
                     </div>
                   </div>
                   <div className={`font-bold ${item.type === 'PAYMENT' ? 'text-emerald-500' : 'text-slate-300'}`}>
-                    {item.type === 'PAYMENT' ? '+' : ''}${item.amount.toFixed(2)}
+                    {item.type === 'PAYMENT' ? '+' : ''}{formatCurrency(item.amount, item.currency)}
                   </div>
                 </div>
               ))}

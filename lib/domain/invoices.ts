@@ -94,6 +94,7 @@ export async function generateMonthlyInvoices(userId: string) {
         data: {
           tenantId: tenant.id,
           unitId: tenant.unitId,
+          currency: tenant.unit.currency,
           invoiceNumber,
           billingPeriod,
           amount: tenant.unit.monthlyRent,

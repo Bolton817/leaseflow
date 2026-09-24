@@ -64,5 +64,11 @@ export async function updateSession(request: NextRequest) {
 
 export async function deleteSession() {
   const cookieStore = await cookies();
-  cookieStore.delete('session');
+  cookieStore.set('session', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(0),
+    sameSite: 'lax',
+    path: '/',
+  });
 }

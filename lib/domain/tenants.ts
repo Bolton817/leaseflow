@@ -137,3 +137,43 @@ export async function updateTenantStatus(userId: string, tenantId: string, statu
     data: { status },
   });
 }
+
+export async function processMoveOut(userId: string, tenantId: string, moveOutDate: Date) {
+  const tenant = await prisma.tenant.findFirst({
+    where: { id: tenantId, unit: { property: { ownerId: userId } } },
+  });
+
+  if (!tenant) throw new Error('Tenant not found or unauthorized');
+
+  return prisma.$transaction(async (tx) => {
+    const updatedTenant = await tx.tenant.update({
+      where: { id: tenantId },
+      data: { status: 'MOVED_OUT', moveOutDate },
+    });
+
+    await tx.unit.update({
+      where: { id: tenant.unitId },
+      data: { status: 'VACANT' },
+    });
+
+    return updatedTenant;
+  });
+}
+
+export async function deleteTenant(userId: string, tenantId: string) {
+  const tenant = await prisma.tenant.findFirst({
+    where: { id: tenantId, unit: { property: { ownerId: userId } } },
+    include: { _count: { select: { invoices: true, payments: true } } }
+  });
+
+  if (!tenant) throw new Error('Tenant not found or unauthorized');
+  
+  if (tenant._count.invoices > 0 || tenant._count.payments > 0) {
+    throw new Error('Cannot delete a tenant with existing financial records. Please use the Move Out option instead to preserve history.');
+  }
+
+  return prisma.tenant.delete({
+    where: { id: tenantId },
+  });
+}
+

@@ -3,6 +3,7 @@ import { getInvoiceById } from '@/lib/domain/invoices';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import RecordPaymentForm from './RecordPaymentForm';
+import { formatCurrency } from '@/lib/utils/currency';
 
 export default async function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireSession();
@@ -51,6 +52,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
         <RecordPaymentForm 
           invoiceId={invoice.id} 
           remainingBalance={remainingBalance} 
+          currency={invoice.currency as 'USD' | 'KES'}
         />
       )}
 
@@ -79,11 +81,11 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
             <div className="flex justify-between items-center">
               <div>
                 <span className="block text-xs font-medium text-slate-500 uppercase tracking-wider">Total Billed</span>
-                <span className="text-xl font-medium text-white">${totalAmount.toFixed(2)}</span>
+                <span className="text-xl font-medium text-white">{formatCurrency(totalAmount, invoice.currency as 'USD' | 'KES')}</span>
               </div>
               <div className="text-right">
                 <span className="block text-xs font-medium text-slate-500 uppercase tracking-wider">Remaining Balance</span>
-                <span className="text-2xl font-bold text-amber-500">${remainingBalance.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-amber-500">{formatCurrency(remainingBalance, invoice.currency as 'USD' | 'KES')}</span>
               </div>
             </div>
             <div className="pt-2 border-t border-slate-800/50">
@@ -103,7 +105,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
+            <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap md:whitespace-normal">
               <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="px-4 py-3 font-medium">Date</th>
@@ -119,7 +121,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
                     <td className="px-4 py-3">{payment.paymentMethod}</td>
                     <td className="px-4 py-3">{payment.referenceNumber || '-'}</td>
                     <td className="px-4 py-3 text-right font-medium text-emerald-500">
-                      ${payment.amount.toString()}
+                      {formatCurrency(payment.amount, payment.currency as 'USD' | 'KES')}
                     </td>
                   </tr>
                 ))}
@@ -127,7 +129,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
               <tfoot className="border-t border-slate-800 bg-slate-800/20">
                 <tr>
                   <td colSpan={3} className="px-4 py-3 text-right font-medium text-slate-400">Total Paid:</td>
-                  <td className="px-4 py-3 text-right font-bold text-white">${currentPaid.toFixed(2)}</td>
+                  <td className="px-4 py-3 text-right font-bold text-white">{formatCurrency(currentPaid, invoice.currency as 'USD' | 'KES')}</td>
                 </tr>
               </tfoot>
             </table>

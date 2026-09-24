@@ -25,6 +25,19 @@ export default function NewPropertyPage() {
           )}
 
           <div>
+            <label className="block text-sm font-medium text-slate-400 mb-1" htmlFor="image">
+              Property Image
+            </label>
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              className="w-full bg-[#0B101A] border border-slate-700 rounded-lg px-4 py-2.5 text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-500/10 file:text-amber-500 hover:file:bg-amber-500/20 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors"
+            />
+          </div>
+
+          <div>
             <label className="block text-sm font-medium text-slate-400 mb-1" htmlFor="name">
               Property Name
             </label>

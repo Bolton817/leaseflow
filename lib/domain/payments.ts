@@ -61,7 +61,7 @@ export async function recordPayment(userId: string, data: {
 
   // 3. Verify overpayment constraint
   if (data.amount > remainingBalance) {
-    throw new Error(`Payment amount ($${data.amount}) exceeds remaining balance ($${remainingBalance})`);
+    throw new Error(`Payment amount (${data.amount} ${invoice.currency}) exceeds remaining balance (${remainingBalance} ${invoice.currency})`);
   }
 
   // 4. Use a transaction to record payment and update invoice status
@@ -72,6 +72,7 @@ export async function recordPayment(userId: string, data: {
         invoiceId: invoice.id,
         tenantId: invoice.tenantId,
         unitId: invoice.unitId,
+        currency: invoice.currency,
         amount: data.amount,
         paymentMethod: data.paymentMethod,
         paymentDate: data.paymentDate,

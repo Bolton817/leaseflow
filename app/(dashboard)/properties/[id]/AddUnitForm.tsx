@@ -1,16 +1,17 @@
 'use client';
 
-import { useActionState, useRef } from 'react';
+import { useActionState, useRef, useEffect } from 'react';
 import { createUnitAction } from '@/app/actions/unit';
 
 export default function AddUnitForm({ propertyId }: { propertyId: string }) {
   const [state, formAction, isPending] = useActionState(createUnitAction, null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // If successful, reset the form. In a real app we might close a modal here.
-  if (state?.success && formRef.current) {
-    formRef.current.reset();
-  }
+  useEffect(() => {
+    if (state?.success && formRef.current) {
+      formRef.current.reset();
+    }
+  }, [state?.success]);
 
   return (
     <div className="bg-[#131A26] rounded-xl p-6 border border-slate-800 shadow-lg mb-8">
@@ -32,16 +33,27 @@ export default function AddUnitForm({ propertyId }: { propertyId: string }) {
 
         <div className="w-full md:w-auto flex-1">
           <label className="block text-xs font-medium text-slate-400 mb-1" htmlFor="monthlyRent">Monthly Rent</label>
-          <input 
-            id="monthlyRent" 
-            name="monthlyRent" 
-            type="number" 
-            step="0.01"
-            min="0"
-            required
-            placeholder="e.g., 1200.00"
-            className="w-full bg-[#0B101A] border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" 
-          />
+          <div className="flex rounded-lg overflow-hidden border border-slate-700 bg-[#0B101A] focus-within:ring-2 focus-within:ring-amber-500">
+            <select
+              id="currency"
+              name="currency"
+              className="bg-slate-800 text-white text-sm px-2 py-2 border-r border-slate-700 focus:outline-none"
+              defaultValue="USD"
+            >
+              <option value="USD">USD</option>
+              <option value="KES">KES</option>
+            </select>
+            <input 
+              id="monthlyRent" 
+              name="monthlyRent" 
+              type="number" 
+              step="0.01"
+              min="0"
+              required
+              placeholder="1200.00"
+              className="w-full bg-transparent px-3 py-2 text-white text-sm focus:outline-none" 
+            />
+          </div>
         </div>
 
         <div className="w-full md:w-auto flex-1">

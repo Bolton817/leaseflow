@@ -3,6 +3,7 @@
 import { useActionState, useState } from 'react';
 import { createTenantAction } from '@/app/actions/tenant';
 import Link from 'next/link';
+import { formatCurrency } from '@/lib/utils/currency';
 
 export default function TenantForm({ properties }: { properties: any[] }) {
   const [state, formAction, isPending] = useActionState(createTenantAction, null);
@@ -107,7 +108,7 @@ export default function TenantForm({ properties }: { properties: any[] }) {
                 {!selectedPropertyId ? 'Select property first' : availableUnits.length === 0 ? 'No available units' : 'Select a unit...'}
               </option>
               {availableUnits.map((u: any) => (
-                <option key={u.id} value={u.id}>Unit {u.unitNumber} (${u.monthlyRent.toString()}/mo)</option>
+                <option key={u.id} value={u.id}>Unit {u.unitNumber} ({formatCurrency(u.monthlyRent, u.currency)}/mo)</option>
               ))}
             </select>
           </div>

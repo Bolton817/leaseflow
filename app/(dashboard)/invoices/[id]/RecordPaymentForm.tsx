@@ -1,21 +1,25 @@
 'use client';
 
-import { useActionState, useRef } from 'react';
+import { useActionState, useRef, useEffect } from 'react';
 import { recordPaymentAction } from '@/app/actions/payment';
 
 export default function RecordPaymentForm({ 
   invoiceId, 
-  remainingBalance 
+  remainingBalance,
+  currency = 'USD'
 }: { 
   invoiceId: string; 
   remainingBalance: number;
+  currency?: 'USD' | 'KES';
 }) {
   const [state, formAction, isPending] = useActionState(recordPaymentAction, null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  if (state?.success && formRef.current) {
-    formRef.current.reset();
-  }
+  useEffect(() => {
+    if (state?.success && formRef.current) {
+      formRef.current.reset();
+    }
+  }, [state?.success]);
 
   return (
     <div className="bg-[#131A26] rounded-xl p-6 border border-amber-500/30 shadow-lg mb-8">
@@ -24,7 +28,7 @@ export default function RecordPaymentForm({
         <input type="hidden" name="invoiceId" value={invoiceId} />
         
         <div className="w-full md:w-auto flex-1">
-          <label className="block text-xs font-medium text-slate-400 mb-1" htmlFor="amount">Amount ($)</label>
+          <label className="block text-xs font-medium text-slate-400 mb-1" htmlFor="amount">Amount ({currency})</label>
           <input 
             id="amount" 
             name="amount" 

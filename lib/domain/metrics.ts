@@ -36,11 +36,12 @@ export async function getDashboardMetrics(userId: string) {
     },
   });
 
-  let outstandingBalance = 0;
+  const outstandingBalance = { USD: 0, KES: 0 };
   for (const inv of unpaidInvoices) {
     const total = Number(inv.amount);
     const paid = inv.payments.reduce((sum, p) => sum + Number(p.amount), 0);
-    outstandingBalance += (total - paid);
+    const curr = inv.currency as 'USD' | 'KES';
+    outstandingBalance[curr] += (total - paid);
   }
 
   // Monthly Revenue (Payments made in the current month)
@@ -58,7 +59,11 @@ export async function getDashboardMetrics(userId: string) {
     },
   });
 
-  const monthlyRevenue = monthlyPayments.reduce((sum, p) => sum + Number(p.amount), 0);
+  const monthlyRevenue = { USD: 0, KES: 0 };
+  for (const p of monthlyPayments) {
+    const curr = p.currency as 'USD' | 'KES';
+    monthlyRevenue[curr] += Number(p.amount);
+  }
 
   // 3. Recent Activity (Latest 5 payments or invoices)
   const recentPayments = await prisma.payment.findMany({
@@ -81,6 +86,7 @@ export async function getDashboardMetrics(userId: string) {
       id: `pay-${p.id}`,
       type: 'PAYMENT',
       amount: Number(p.amount),
+      currency: p.currency as 'USD' | 'KES',
       date: p.createdAt,
       tenant: `${p.tenant.firstName} ${p.tenant.lastName}`,
     })),
@@ -88,6 +94,7 @@ export async function getDashboardMetrics(userId: string) {
       id: `inv-${i.id}`,
       type: 'INVOICE',
       amount: Number(i.amount),
+      currency: i.currency as 'USD' | 'KES',
       date: i.createdAt,
       tenant: `${i.tenant.firstName} ${i.tenant.lastName}`,
     })),

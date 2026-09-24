@@ -2,6 +2,8 @@ import { requireSession } from '@/lib/auth/user';
 import { getTenantById } from '@/lib/domain/tenants';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { formatCurrency } from '@/lib/utils/currency';
+import TenantActions from './TenantActions';
 
 export default async function TenantDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireSession();
@@ -12,6 +14,8 @@ export default async function TenantDetailPage({ params }: { params: Promise<{ i
   if (!tenant) {
     notFound();
   }
+
+  const canDelete = tenant.invoices.length === 0 && tenant.notifications.length === 0;
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -28,13 +32,30 @@ export default async function TenantDetailPage({ params }: { params: Promise<{ i
               Tenant since {tenant.moveInDate.toLocaleDateString()}
             </p>
           </div>
-          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-            tenant.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
-            tenant.status === 'NOTICE' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' :
-            'bg-slate-800 text-slate-400 border border-slate-700'
-          }`}>
-            {tenant.status}
-          </span>
+          <div className="flex flex-col items-end gap-3">
+            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+              tenant.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+              tenant.status === 'NOTICE' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' :
+              'bg-slate-800 text-slate-400 border border-slate-700'
+            }`}>
+              {tenant.status}
+            </span>
+            <TenantActions 
+              tenant={{
+                id: tenant.id,
+                unitId: tenant.unitId,
+                firstName: tenant.firstName,
+                lastName: tenant.lastName,
+                email: tenant.email,
+                phone: tenant.phone,
+                status: tenant.status,
+                moveInDate: tenant.moveInDate,
+                moveOutDate: tenant.moveOutDate,
+              }}
+              canDelete={canDelete} 
+              isActive={tenant.status === 'ACTIVE'}
+            />
+          </div>
         </div>
       </header>
 
@@ -64,7 +85,7 @@ export default async function TenantDetailPage({ params }: { params: Promise<{ i
             </div>
             <div>
               <span className="block text-xs font-medium text-slate-500 uppercase tracking-wider">Monthly Rent</span>
-              <span className="text-slate-300 font-medium">${tenant.unit.monthlyRent.toString()}</span>
+              <span className="text-slate-300 font-medium">{formatCurrency(tenant.unit.monthlyRent, tenant.unit.currency as 'USD' | 'KES')}</span>
             </div>
             <div>
               <span className="block text-xs font-medium text-slate-500 uppercase tracking-wider">Lease End</span>
@@ -84,7 +105,7 @@ export default async function TenantDetailPage({ params }: { params: Promise<{ i
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-300">
+              <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap md:whitespace-normal">
                 <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                   <tr>
                     <th className="px-4 py-3 font-medium">Invoice #</th>
@@ -116,7 +137,7 @@ export default async function TenantDetailPage({ params }: { params: Promise<{ i
                         </span>
                       </td>
                       <td className="px-4 py-3 text-right font-medium text-white">
-                        ${invoice.amount.toString()}
+                        {formatCurrency(invoice.amount, invoice.currency as 'USD' | 'KES')}
                       </td>
                     </tr>
                   ))}
@@ -135,7 +156,7 @@ export default async function TenantDetailPage({ params }: { params: Promise<{ i
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-300">
+              <table className="w-full text-left text-sm text-slate-300 whitespace-nowrap md:whitespace-normal">
                 <thead className="bg-[#0B101A] text-slate-400 border-b border-slate-800">
                   <tr>
                     <th className="px-4 py-3 font-medium">Date & Time</th>

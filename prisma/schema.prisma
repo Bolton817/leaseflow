@@ -34,6 +34,7 @@ model Property {
   address     String
   city        String
   description String?
+  imageUrl    String?
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -50,6 +51,7 @@ model Unit {
   monthlyRent  Decimal    @db.Decimal(12, 2)
   bedrooms     Int?
   status       UnitStatus @default(VACANT)
+  currency     Currency   @default(USD)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   tenants      Tenant[]
@@ -94,6 +96,7 @@ model Invoice {
   amount        Decimal       @db.Decimal(12, 2)
   dueDate       DateTime
   status        InvoiceStatus @default(ISSUED)
+  currency      Currency      @default(USD)
   issuedAt      DateTime?
   paidAt        DateTime?
   createdAt     DateTime      @default(now())
@@ -115,6 +118,7 @@ model Payment {
   unitId          String
   invoiceId       String?
   amount          Decimal  @db.Decimal(12, 2)
+  currency        Currency @default(USD)
   paymentDate     DateTime
   paymentMethod   String
   referenceNumber String?
@@ -183,4 +187,9 @@ enum InvoiceStatus {
   PAID
   OVERDUE
   CANCELLED
+}
+
+enum Currency {
+  USD
+  KES
 }
